@@ -53,15 +53,31 @@ body{
     bottom: 0px;
     right: 0px;
 }
+#key{
+    width: 32px;
+    height: 32px;
+    background-color: gold;
+    left: 400px;
+    top: 200px;
+} 
 #testTree{
-
-}
+    height: 64px;
+    width: 64px;
+    background-color: green;
+    top: 100px;
+    left: 400px;
+    transition: all 1s ease-in-out;
+} 
 #playerCharacter{
-
+    height: 32px;
+    width: 32px;
+    background-color:goldenrod; 
+    transition: all 1s ease-in-out;
 }
 #tileMap{
 
 }
+
 
 .background{
     position: absolute;
