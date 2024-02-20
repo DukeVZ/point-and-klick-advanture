@@ -46,6 +46,9 @@ gameWindow.onclick = function (e) {
             }
         break;
               default: break;
+            case "statue":
+                console.log("hey there")
+                break;
     }
 
     function getItem(itemName, itemId){
