@@ -8,10 +8,19 @@ const inventoryList = document.getElementById("inventoryList");
 //playerCharacter
 const mainCharacter = document.getElementById("playerCharacter");
 const offsetCharacter = 16;
+//speach bubbles
+const mainSpeetch = document.getElementById("playerSpeech")
+const counterSpeech = document.getElementById("ncpSpeech")
 
+//objects
 const tree1 =document.getElementById("testTree");
 const keyElement =document.getElementById("key");
 
+//game state
+gameState ={
+    "inventory": [],
+    "coinPickedUp": false
+}
 
 
 gameWindow.onclick = function (e) {
@@ -31,6 +40,7 @@ gameWindow.onclick = function (e) {
 
         case "key":
           getItem("Rusty key", "rustyKey");
+          removeItem("Rusty key", "key")
             break;
         case "well":
             getItem("Coin", "coin");
@@ -39,15 +49,15 @@ gameWindow.onclick = function (e) {
             if(checkItem("Rusty key")){
                 console.log("yess the door is open now")
             }   else if(checkItem("Coin")){
+                console.log("o no the door is loched")
                 removeItem("Coin", "coin");
-                console.log("O shit. there goos my coin. and the door is still closed")
             }else{
                 console.log("yess the door is opend")
             }
         break;
               default: break;
             case "statue":
-                console.log("hey there")
+                showMassage(mainSpeetch,"Hey the key you seek is by the graves")
                 break;
     }
 
@@ -70,7 +80,7 @@ gameWindow.onclick = function (e) {
      */
     function showItem(itemName, itemId){
             const keyElement = document.createElement("li");
-            keyElement.id = itemId;
+            keyElement.id = 'inv-'+ itemId;
             keyElement.innerText= itemName;
             inventoryList.appendChild(keyElement);
     }
@@ -87,7 +97,54 @@ gameWindow.onclick = function (e) {
         document.getElementById(itemId).remove();
     }
 
+    /**
+     * add or remove items in the inventory
+     * @param {string} itemName 
+     * @param {string} action 
+     */
+    function changeInventory(itemName, action){
+        if(itemName == null || action == null){
+            console.error("wrong ")
+            return;
+        }
+
+        switch(action){
+            case 'add':
+                inventory.push(itemName);
+                break;
+            case 'delete':
+                inventory = inventory.filter(function(newInventory){
+                    return newInventory !== itemName;
+                });
+                document.getElementById(itemId).remove();
+                break;
+        }
+        updateInventory(inventory, inventoryList);
+    }
+    
+
+    function updateInventory(inventory, inventoryList){
+        inventoryList.innerHTML ='';
+        inventory.forEach(function(item){
+            const inventoryItem = document.createElement("li");
+            inventoryItem.id = 'inv-'+ item;
+            inventoryItme.innerText= item;
+            inventoryList.appendChild(inventoryItem);
+        })
+    };
 
 
+    function showMassage(targetBubble, message){
+        targetBubble.innerText = message;
+        targetBubble.style.opacity = 1;
+        setTimeout(hideMessage, 4000, targetBubble)
+    }
+
+    function hideMessage(targetBubble){
+        targetBubble.innerText = "...";
+        targetBubble.style.opacity = 0;
+    }
+
+    showMassage(mainSpeetch, "hey hello there");
 
 }
