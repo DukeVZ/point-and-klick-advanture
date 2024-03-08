@@ -9,18 +9,42 @@ const inventoryList = document.getElementById("inventoryList");
 const mainCharacter = document.getElementById("playerCharacter");
 const offsetCharacter = 16;
 //speach bubbles
-const mainSpeetch = document.getElementById("playerSpeech")
-const counterSpeech = document.getElementById("ncpSpeech")
+const mainSpeetch = document.getElementById("playerSpeech");
+const counterSpeech = document.getElementById("ncpSpeech");
+//audio sialouge
+const heroAudio = document.getElementById("heroAudio")
+const counterAudio = document.getElementById("counterAudio")
 
 //objects
 const tree1 =document.getElementById("testTree");
 const keyElement =document.getElementById("key");
 
+//avatar
+const counterAvatar = document.getElementById("npcCharacter");
+
 //game state
-gameState ={
+let gameState ={
     "inventory": [],
-    "coinPickedUp": false
+    "coinPickedUp": false,
+    "keyPickedUp": false
 }
+
+localStorage.removeItem("gameState");
+
+if(Storage){
+    if(localStorage.gameState){
+        // parseturns string in object
+        gameState = JSON.parse(localStorage.gameState);
+    }else{
+     //JSON.stringify turns a object into a string
+        localStorage.setItem("gameState", JSON.stringify(gameState));
+    }
+}
+
+
+
+let checkDialoge = false;
+
 
 
 gameWindow.onclick = function (e) {
@@ -28,7 +52,9 @@ gameWindow.onclick = function (e) {
     var x = e.clientX - rect.left;
     var y = e.clientY - rect.top;
 
-    if(e.target.id !== "heroImage")
+    
+
+    if(e.target.id !== "heroImage" && counterSpeech.style.opacity== 0 && mainSpeetch.style.opacity==0)
     {
         mainCharacter.style.left = x - offsetCharacter + "px";
         mainCharacter.style.top = y - offsetCharacter + "px";
@@ -40,25 +66,37 @@ gameWindow.onclick = function (e) {
 
         case "key":
           getItem("Rusty key", "rustyKey");
-          removeItem("Rusty key", "key")
+          removeItem("Rusty key", "key");
+          setTimeout(showMassage,500, mainSpeetch,"hey i found a key here",);
+          gameState.keyPickedUp = true;
+          saveGamestate(gameState);
             break;
         case "well":
             getItem("Coin", "coin");
               break;
         case "bigHousDoor":
-            if(checkItem("Rusty key")){
-                console.log("yess the door is open now")
+            if(gameState.keyPickedUp = true){
+                setTimeout(showMassage,0,mainSpeetch,"yess i can leave finally leave now",);
+                console.log("he its open")
             }   else if(checkItem("Coin")){
-                console.log("o no the door is loched")
+                console.log("o no the door is loched");
                 removeItem("Coin", "coin");
             }else{
-                console.log("yess the door is opend")
+                console.log("shi i need a key")
             }
         break;
-              default: break;
+             
             case "statue":
-                showMassage(mainSpeetch,"Hey the key you seek is by the graves")
+                setTimeout(function() {counterAvatar.style.opacity= 1;}, 4000)
+                setTimeout(showMassage,0,counterSpeech,"aaaaaa a scary ghost!!",);
+                setTimeout(showMassage,4000, mainSpeetch,"e no worrys i am friendly",);
+                setTimeout(showMassage,8000,counterSpeech,"a pffff i was scared for a monent",);
+                setTimeout(showMassage,12000,mainSpeetch,"do you know by any chance how i can enter that boat?",);
+                setTimeout(showMassage,16000,counterSpeech,"yes there is a key in one of the pots.",);
+                setTimeout(showMassage,20000,mainSpeetch,"thank you",)
+                setTimeout(function(){counterAvatar.style.opacity= 0;},22000);
                 break;
+                default: break;
     }
 
     function getItem(itemName, itemId){
@@ -134,17 +172,22 @@ gameWindow.onclick = function (e) {
     };
 
 
-    function showMassage(targetBubble, message){
+    function showMassage(targetBubble, message, targetSound){
+        targetSound.currentTime = 0;
+        targetSound.play();
         targetBubble.innerText = message;
-        targetBubble.style.opacity = 1;
-        setTimeout(hideMessage, 4000, targetBubble)
+        targetBubble.style.opacity = "1";
+        setTimeout(hideMessage, 4000, targetBubble, targetSound);
     }
 
-    function hideMessage(targetBubble){
+    function hideMessage(targetBubble, targetSound){
+        targetSound.pause();
         targetBubble.innerText = "...";
         targetBubble.style.opacity = 0;
     }
 
-    showMassage(mainSpeetch, "hey hello there");
+    function saveGamestate(){
+        localStorage.gameState = JSON.stringify(gameState);
+    }
 
 }

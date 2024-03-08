@@ -1,0 +1,24 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "Alle Bestanden (*)",
+    "fileStates": {
+        "C:/Users/dukev/OneDrive/Bureaublad/Nieuwe map/personeloty/shine/first terain block set expandet.tsx": {
+            "scaleInDock": 1
+        }
+    },
+    "map.height": 19,
+    "map.tileHeight": 31,
+    "map.tileWidth": 32,
+    "map.width": 25,
+    "openFiles": [
+    ],
+    "project": "eigen map voor shine.tiled-project",
+    "recentFiles": [
+    ]
+}
